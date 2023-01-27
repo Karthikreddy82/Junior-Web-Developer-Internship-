@@ -1,30 +1,23 @@
 <?php
+$email=$Post['email'];
+$password=$post['password'];
+$firstName = $post['firstName'];
+$lastName=$post['lastName'];
+$gender=$post['gender'];
+$country = $post['country'];
 // Connect to the database
-$host = "hostname";
-$username = "username";
-$password = "password";
-$dbname = "database_name";
-
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli('localhost', 'root', '', 'testing');
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+} else {
+    $stmt = $conn->prepare("insert in to registration(email,password,firstname,lastname,gender,country");
+    $stmt->bind_param("sssssi", $email, $password, $firstName, $lastName, $gender, $country);
+    $stmt->execute();
+    $stmt->close();
 }
-
-// Perform a SELECT query
-$sql = "SELECT * FROM products";
-$result = $conn->query($sql);
-
-// Fetch the resulting rows as an array
-$products = $result->fetch_all(MYSQLI_ASSOC);
-
-// Iterate through the array and print each product
-foreach ($products as $product) {
-    echo $product['name'] . ": " . $product['price'] . "<br>";
-}
-
-// Close the connection
-$conn->close();
-?>
+//close the connection
+    $conn->close();
+    ?>   
 
